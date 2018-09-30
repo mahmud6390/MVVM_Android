@@ -1,11 +1,8 @@
-package com.ito.taxcalculation;
+package com.ito.taxcalculation.model;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by IP Vision on 9/30/2018.
@@ -22,15 +19,15 @@ public class Country {
 
     @SerializedName("periods")
     private ArrayList<Periods> periods;
-//
-//
-//    public ArrayList<Periods> getPeriods() {
-//        return periods;
-//    }
-//
-//    public void setPeriods(ArrayList<Periods> periods) {
-//        this.periods = periods;
-//    }
+
+
+    public ArrayList<Periods> getPeriods() {
+        return periods;
+    }
+
+    public void setPeriods(ArrayList<Periods> periods) {
+        this.periods = periods;
+    }
     public String getName() {
         return name;
     }

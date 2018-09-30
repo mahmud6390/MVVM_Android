@@ -1,5 +1,7 @@
 package com.ito.taxcalculation;
 
+import com.ito.taxcalculation.api.ApiCallInterface;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -15,7 +17,7 @@ public class RetroClient {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
-    public static ApiService getApiService() {
-        return getRetrofitInstance().create(ApiService.class);
+    public static ApiCallInterface getApiService() {
+        return getRetrofitInstance().create(ApiCallInterface.class);
     }
 }

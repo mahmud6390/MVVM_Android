@@ -1,4 +1,4 @@
-package com.ito.taxcalculation;
+package com.ito.taxcalculation.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,7 +14,7 @@ public class Periods {
     @SerializedName("effective_from")
     private String effectiveFrom;
     @SerializedName("rates")
-    private ArrayList<Map<String,String>> rates;
+    private Map<String,String> rates;
 
 
     public String getEffectiveFrom() {
@@ -25,11 +25,11 @@ public class Periods {
         this.effectiveFrom = effectiveFrom;
     }
 
-    public ArrayList<Map<String, String>> getRates() {
+    public Map<String, String> getRates() {
         return rates;
     }
 
-    public void setRates(ArrayList<Map<String, String>> rates) {
+    public void setRates(Map<String, String> rates) {
         this.rates = rates;
     }
 

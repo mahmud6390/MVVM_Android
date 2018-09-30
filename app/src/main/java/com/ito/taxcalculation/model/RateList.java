@@ -1,4 +1,4 @@
-package com.ito.taxcalculation;
+package com.ito.taxcalculation.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
