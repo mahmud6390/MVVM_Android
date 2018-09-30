@@ -13,28 +13,24 @@ import java.util.Map;
 
 public class Country {
     @SerializedName("name")
-    @Expose
     private String  name;
 
     @SerializedName("code")
-    @Expose
     private String  code;
     @SerializedName("country_code")
-    @Expose
     private String  country_code;
 
-    public ArrayList<Periods> getPeriods() {
-        return periods;
-    }
-
-    public void setPeriods(ArrayList<Periods> periods) {
-        this.periods = periods;
-    }
-
     @SerializedName("periods")
-    @Expose
     private ArrayList<Periods> periods;
-
+//
+//
+//    public ArrayList<Periods> getPeriods() {
+//        return periods;
+//    }
+//
+//    public void setPeriods(ArrayList<Periods> periods) {
+//        this.periods = periods;
+//    }
     public String getName() {
         return name;
     }
@@ -61,11 +57,7 @@ public class Country {
 
     @Override
     public String toString() {
-        return "Country{" +
-                "name='" + name + '\'' +
-                ", code='" + code + '\'' +
-                ", country_code='" + country_code + '\'' +
-                ", periods=" + periods.size() +
+        return "Country{" +periods +
                 '}';
     }
 }

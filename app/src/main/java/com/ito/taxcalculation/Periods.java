@@ -12,8 +12,10 @@ import java.util.Map;
 
 public class Periods {
     @SerializedName("effective_from")
-    @Expose
     private String effectiveFrom;
+    @SerializedName("rates")
+    private ArrayList<Map<String,String>> rates;
+
 
     public String getEffectiveFrom() {
         return effectiveFrom;
@@ -31,15 +33,13 @@ public class Periods {
         this.rates = rates;
     }
 
-    @SerializedName("rates")
-    @Expose
-    private ArrayList<Map<String,String>> rates;
+
 
     @Override
     public String toString() {
         return "Periods{" +
-                "effectiveFrom='" + effectiveFrom + '\'' +
-                ", rates=" + rates +
+                "rates='" + rates.size() + '\'' +
+
                 '}';
     }
 }
