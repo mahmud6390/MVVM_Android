@@ -9,14 +9,14 @@ public class Rates {
         this.key = key;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 
     private String key;
-    private int value;
+    private double value;
 }

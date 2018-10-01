@@ -3,6 +3,8 @@ package com.ito.taxcalculation.di;
 
 import android.app.Activity;
 
+import com.ito.taxcalculation.view.CalculateTaxActivity;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -15,6 +17,6 @@ import dagger.Component;
 @Singleton
 public interface AppComponent {
 
-    void doInjection(Activity activity);
+    void doInjection(CalculateTaxActivity activity);
 
 }

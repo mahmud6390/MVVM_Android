@@ -9,6 +9,7 @@ import com.ito.taxcalculation.model.Rates;
 import com.ito.taxcalculation.repository.Repository;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,29 +25,27 @@ public class CalculateTaxViewModel extends ViewModel {
     private Repository repository;
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final MutableLiveData<RateList> responseLiveData = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Country>> countryList = new MutableLiveData<>();
+    private MutableLiveData<Double> totalAmountWithTax = new MutableLiveData<>();
+    private MutableLiveData<ArrayList<Rates>> rateList = new MutableLiveData<>();
 
+    CalculateTaxViewModel(Repository repository) {
+        this.repository = repository;
+    }
     public MutableLiveData<ArrayList<Country>> getCountryList() {
         return countryList;
     }
-
-    private MutableLiveData<ArrayList<Country>> countryList = new MutableLiveData<>();
-    private ArrayList<Rates> ratesArrayList = new ArrayList<>();
-    private RateList rateList;
-
-    public CalculateTaxViewModel(Repository repository) {
-        this.repository = repository;
+    public MutableLiveData<ArrayList<Rates>> getRateList() {
+        return rateList;
     }
-
-    public MutableLiveData<RateList> getResponseLiveData() {
-        return responseLiveData;
+    public MutableLiveData<Double> getTotalAmountWithTax() {
+        return totalAmountWithTax;
     }
-
     /*
      * method to call load json response
      * */
     public void loadJson() {
-        Observable<RateList> rateListObservable = repository.executeApiCall();
-        disposables.add(rateListObservable
+        disposables.add(repository.executeApiCall()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(result -> {
@@ -55,6 +54,30 @@ public class CalculateTaxViewModel extends ViewModel {
                 })
         );
 
+    }
+    public void loadTaxTypeBasedOnCountry(String countryCode){
+        Map<String,String> rateMap=getRatesForCountry(countryCode);
+        ArrayList<Rates> ratesArrayList=new ArrayList<>();
+        for(String key:rateMap.keySet()){
+            Rates rates=new Rates();
+            rates.setKey(key);
+            rates.setValue(Double.parseDouble(rateMap.get(key)));
+            ratesArrayList.add(rates);
+        }
+        rateList.setValue(ratesArrayList);
+    }
+    public void loadTotalAmount(double currency,double tax){
+        double taxAmount=currency * (tax/100);
+        double totalWithTax=currency+taxAmount;
+        totalAmountWithTax.setValue(totalWithTax);
+    }
+    private Map<String,String> getRatesForCountry(String code){
+        for(Country country:countryList.getValue()){
+            if(country.getCode().equalsIgnoreCase(code)){
+                return country.getPeriods().get(0).getRates();
+            }
+        }
+        return null;
     }
 
     @Override
