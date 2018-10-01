@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 /**
- * Created by IP Vision on 9/30/2018.
+ * Created by mahmud on 9/30/2018.
  */
 
 public class RateList {

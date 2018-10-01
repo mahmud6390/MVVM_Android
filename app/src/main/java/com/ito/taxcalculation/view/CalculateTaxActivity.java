@@ -78,16 +78,15 @@ public class CalculateTaxActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(editTextAmount.getText().toString())){
             viewModel.getTotalAmountWithTax().observe(this,this::updateTaxCalculation);
             double amount=Double.parseDouble(editTextAmount.getText().toString());
-            Log.d(TAG,"calculateTax>>amount:"+amount+":value:"+value);
             viewModel.loadTotalAmount(amount,value);
         }
 
     }
 
     private void updateCountry(ArrayList<Country> countries) {
-        //one fake country by default for showing select country
+        //one fake country by default for showing select country text
         Country country=new Country();
-        country.setName("Select country");
+        country.setName(getString(R.string.select_country));
         country.setCode("");
         countries.add(0,country);
         ArrayList<String> countryNameList=new ArrayList<>();
@@ -102,7 +101,6 @@ public class CalculateTaxActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String code=countries.get(position).getCode();
                 if(!TextUtils.isEmpty(code)){
-                    Log.d(TAG,"onItemSelected>>>"+code);
                     loadTaxTypeBasedOnCountryCode(code);
                 }
 
@@ -122,7 +120,6 @@ public class CalculateTaxActivity extends AppCompatActivity {
             button.setId(i);
             button.setText(rates.get(i).getKey());
             radioGroup.addView(button);
-            Log.d(TAG,"updateTaxRadioBtn>>>id:"+button.getId());
             if(button.getId()==0){
                 button.setChecked(true);
                 int position=button.getId();

@@ -18,9 +18,6 @@ public class Repository {
         this.apiCallInterface = apiCallInterface;
     }
 
-    /*
-     * method to call login api
-     * */
     public Observable<RateList> executeApiCall() {
         return apiCallInterface.getRateList();
     }

@@ -34,6 +34,15 @@ public class CalculateTaxViewModel extends ViewModel {
     private Scheduler subscribeScheduler;
     private Scheduler observerScheduler;
 
+    /**
+     * This constructor create whenever viewModelFactory inject.subscribeScheduler and observerScheduler
+     * subscribe on io and observeOn on Android main thread.By this qualifier it'll pass the value
+     * from test case also.
+     * @param repository
+     * @param subscribeScheduler
+     * @param observerScheduler
+     */
+
     CalculateTaxViewModel(Repository repository,@SubscribeScheduler Scheduler subscribeScheduler,
                           @ObserverScheduler Scheduler observerScheduler) {
         this.repository = repository;
@@ -49,8 +58,11 @@ public class CalculateTaxViewModel extends ViewModel {
     public MutableLiveData<Double> getTotalAmountWithTax() {
         return totalAmountWithTax;
     }
+
+
     /*
-     * method to call load json response
+     * parsing json data and send the country list to observers.In this country list it's also exist the
+     * tax type and value as key,value map.
      * */
     public void loadJson() {
         disposables.add(repository.executeApiCall()
@@ -63,26 +75,53 @@ public class CalculateTaxViewModel extends ViewModel {
         );
 
     }
+
+    /**
+     * By country code first it's find out the tax key,value map from getRatesForCountry.
+     * After getting the result it's store the key,value as a list of Rate object.Then store at
+     * live data rateLite.
+     * @param countryCode
+     */
     public void loadTaxTypeBasedOnCountry(String countryCode){
         Map<String,String> rateMap=getRatesForCountry(countryCode);
-        ArrayList<Rates> ratesArrayList=new ArrayList<>();
-        for(String key:rateMap.keySet()){
-            Rates rates=new Rates();
-            rates.setKey(key);
-            rates.setValue(Double.parseDouble(rateMap.get(key)));
-            ratesArrayList.add(rates);
+        if(rateMap!=null){
+            ArrayList<Rates> ratesArrayList=new ArrayList<>();
+            for(String key:rateMap.keySet()){
+                Rates rates=new Rates();
+                rates.setKey(key);
+                rates.setValue(Double.parseDouble(rateMap.get(key)));
+                ratesArrayList.add(rates);
+            }
+            rateList.setValue(ratesArrayList);
         }
-        rateList.setValue(ratesArrayList);
+
     }
+
+    /**
+     * getting the currency amount and tax value it'll return the total amount with tax.And store the
+     * value at LiveData totalAmountWithTax.
+     * @param currency
+     * @param tax
+     */
     public void loadTotalAmount(double currency,double tax){
         double taxAmount=currency * (tax/100);
         double totalWithTax=currency+taxAmount;
         totalAmountWithTax.setValue(totalWithTax);
     }
+
+    /**
+     * This method return  the zero index rate list(tax key,value) for a specific country.
+     * There has multiple list of rates but here we are using only zero index value.
+     * Later we can change this based on effective_from date.
+     * @param code
+     * @return
+     */
     private Map<String,String> getRatesForCountry(String code){
-        for(Country country:countryList.getValue()){
-            if(country.getCode().equalsIgnoreCase(code)){
-                return country.getPeriods().get(0).getRates();
+        if(countryList!=null && countryList.getValue()!=null){
+            for(Country country:countryList.getValue()){
+                if(country.getCode().equalsIgnoreCase(code)){
+                    return country.getPeriods().get(0).getRates();
+                }
             }
         }
         return null;

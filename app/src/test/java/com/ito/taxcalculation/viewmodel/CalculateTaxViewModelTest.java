@@ -27,7 +27,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
- * Created by IP Vision on 10/1/2018.
+ * Created by mahmud on 10/1/2018.
  */
 public class CalculateTaxViewModelTest {
 

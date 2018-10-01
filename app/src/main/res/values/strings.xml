@@ -2,4 +2,5 @@
     <string name="app_name">UniversalTaxCalculation</string>
     <string name="tax_value">Tax value :  %.2f</string>
     <string name="total_amount">Total amount with tax :  %.2f</string>
+    <string name="select_country">Select country</string>
 </resources>
