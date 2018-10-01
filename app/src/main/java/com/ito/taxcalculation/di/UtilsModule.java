@@ -16,6 +16,9 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import retrofit2.Retrofit;
@@ -82,6 +85,17 @@ public class UtilsModule {
     @Provides
     @Singleton
     ViewModelProvider.Factory getViewModelFactory(Repository myRepository) {
-        return new ViewModelFactory(myRepository);
+        return new ViewModelFactory(myRepository,subscribeScheduler(),observerScheduler());
+    }
+    @Provides
+    @SubscribeScheduler
+    public Scheduler subscribeScheduler() {
+        return Schedulers.io();
+    }
+
+    @Provides
+    @ObserverScheduler
+    public Scheduler observerScheduler() {
+        return AndroidSchedulers.mainThread();
     }
 }
